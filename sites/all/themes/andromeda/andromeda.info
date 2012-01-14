@@ -1,0 +1,36 @@
+; $Id$
+
+name = Andromeda
+description = A slick Drupal 7 theme with grid support.
+core = 7.x
+
+stylesheets[all][] = css/reset.css
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/structure.css
+stylesheets[all][] = css/node.css
+stylesheets[all][] = css/menu.css
+stylesheets[all][] = css/comment.css
+stylesheets[all][] = css/form.css
+stylesheets[all][] = css/font.css
+stylesheets[all][] = css/panel.css
+stylesheets[all][] = css/view.css
+stylesheets[all][] = css/nivo-slider.css
+
+scripts[] = js/jquery.nivo.slider.pack.js
+scripts[] = js/script.js
+
+regions[header] = Header
+regions[banner] = Banner
+regions[highlight] = Highlight
+regions[content] = Content
+regions[sidebar] = Sidebar
+regions[footer] = Footer
+
+settings[toggle_slogan] = 0
+settings[andromeda_show_title_front_page] = 0
+; Information added by drupal.org packaging script on 2011-09-07
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "andromeda"
+datestamp = "1315353959"
+

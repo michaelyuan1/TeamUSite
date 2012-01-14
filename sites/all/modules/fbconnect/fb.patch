@@ -1,0 +1,19 @@
+diff --git a/fbconnect.module b/fbconnect.module
+index 82ad43e..354373a 100644
+--- a/fbconnect.module
++++ b/fbconnect.module
+@@ -336,12 +336,12 @@ function fbconnect_libraries_info() {
+       'file' => 'readme.md',
+       // Best practice: Document the actual version strings for later reference.
+       // 3.1.1:  Facebook PHP SDK (v.3.1.1), filters for 3.x.x versions
+-      'pattern' => '/Facebook PHP SDK \(v.3.\d.\d\)/',
++      'pattern' => '/Facebook PHP SDK \(v\.(3\.\d\.\d)\)/',
+       'lines' => 10,
+     ),
+     // supported library version, including relevant files
+     'versions' => array(
+-      'Facebook PHP SDK (v.3.1.1)' => array(
++      '3.1.1' => array(
+         'files' => array(
+           'php' => array(
+             'src/base_facebook.php',

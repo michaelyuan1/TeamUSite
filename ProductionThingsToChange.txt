@@ -1,0 +1,2 @@
+1. On Picture Slideshow block, change the base path of the image
+2. On facebook's app, change the app url, both on Facebook and on the fbconnect settings
