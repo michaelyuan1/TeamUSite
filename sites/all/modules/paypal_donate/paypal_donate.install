@@ -1,0 +1,89 @@
+<?php
+// $Id: paypal_donate.install,v 1.1.4.3 2010/07/24 16:21:36 johnnymast Exp $
+
+define('PAYPAL_DONATE_VERSION', 1.0);
+
+/**
+* This hook is triggered when the paypal donate module is being installed. 
+* This function will run only once and gives us the possibility to install 
+* the a required table in the database.
+*
+* @since 1.1
+* @return void
+*/
+function paypal_donate_install() {
+	
+  paypal_donate_uninstall();
+  variable_set('paypal_donate_version', PAYPAL_DONATE_VERSION);
+  
+  node_types_rebuild();
+  $types = node_type_get_types();
+  node_add_body_field($types['paypal_donate']);
+
+  $body_instance = field_info_instance('node', 'body', 'paypal_donate');
+
+  $body_instance['type'] = 'text_summary_or_trimmed';
+
+  field_update_instance($body_instance);
+ 
+  foreach (_paypal_donate_installed_fields() as $field) {
+    field_create_field($field);
+  }
+
+  foreach (_paypal_donate_installed_fields() as $instance) {
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = 'paypal_donate';
+    field_create_instance($instance);
+  }
+}
+
+
+/**
+ * Return a structured array defining the fields created by this content type.
+ *
+ * This is packaged in a function so it can be used in both hook_install()
+ * and hook_uninstall().
+ */
+function _paypal_donate_installed_fields() {
+  $t = get_t();
+  return array(
+    'paypal_donate_email' => array(
+      'field_name'  => 'paypal_donate_email',
+	  'label'       => $t('Email Address of the paypal account'),
+      'type'        => 'text',
+    )
+  );
+}
+
+
+/**
+* This hook is triggered when the paypal donate module is being uninstalled. 
+* This function will run only once and gives us the possibility to remove 
+* the a required table in the database.
+*
+* @since 1.0
+* @return void
+*/
+function paypal_donate_uninstall() {
+
+  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  $result = db_query($sql, array(':type' => 'paypal_donate'));
+  $nids = array();
+  foreach ($result as $row) {
+    $nids[] = $row->nid;
+  }
+
+  node_delete_multiple($nids);
+	
+  foreach (array_keys(_paypal_donate_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+
+  $instances = field_info_instances('node', 'paypal_donate');
+  foreach ($instances as $instance_name => $instance) {
+    field_delete_instance($instance);
+  }
+
+  node_type_delete('paypal_donate');
+  field_purge_batch(1000);
+}
